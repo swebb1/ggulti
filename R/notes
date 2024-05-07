@@ -1,5 +1,6 @@
 Theming
 
-Disc
-Bent paths
-Label cuts
+hstack()
+vstack()
+
+keep_all_paths in animation
