@@ -126,42 +126,59 @@ plot_play <- function(pitch,arrow_list=NULL,player_list=NULL,static_frame=1,anim
   players = bind_rows(player_list)
 
   p = pitch
-  if(length(arrows) > 0){
-    p = p +
-    geom_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
+  if(nrow(arrows) > 0){
+    if(arrows |> filter(arrow_shape %in% c("fhrc","bhio")) |> nrow() > 0){
+      p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=team, linetype=type, group = label),
                curvature = 0.2,
                arrow = arrow(length = unit(0.25, "cm"),
-                             type = "closed")) +
-    geom_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
+                             type = "closed"))
+    }
+    if(arrows |> filter(arrow_shape %in% c("bhrc","fhio")) |> nrow() > 0){
+      p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=team, linetype=type, group = label),
                curvature = -0.2,
                arrow = arrow(length = unit(0.25, "cm"),
-                             type = "closed")) +
-    geom_segment(data=arrows |> filter(arrow_shape == "straight"),
+                             type = "closed"))
+    }
+    if(arrows |> filter(arrow_shape == "straight") |> nrow() > 0){
+      p = p + geom_segment(data=arrows |> filter(arrow_shape == "straight"),
                  aes(x = x, y = y, xend = xend, yend = yend,
                      colour=team, linetype=type, group = label),
                  arrow = arrow(length = unit(0.25, "cm"),
-                               type = "closed")) +
-    scale_linetype_manual(values=arrowtypes) +
-    geom_label(data=arrows |> filter(!show == "" & label_pos=="start_up"),aes(x=x,y=y,colour=team,alpha=alpha,label=show),vjust=-0.5,show.legend = FALSE) +
-    geom_label(data=arrows |> filter(!show == "" & label_pos=="end_up"),aes(x=xend,y=yend,colour=team,alpha=alpha,label=show),vjust=-0.5,show.legend = FALSE) +
-    geom_label(data=arrows |> filter(!show == "" & label_pos=="start_down"),aes(x=x,y=y,colour=team,alpha=alpha,label=show),vjust=1.5,show.legend = FALSE) +
-    geom_label(data=arrows |> filter(!show == "" & label_pos=="end_down"),aes(x=xend,y=yend,colour=team,alpha=alpha,label=show),vjust=1.5,show.legend = FALSE)
+                               type = "closed"))
+    }
+    p = p + scale_linetype_manual(values=arrowtypes)
+
+    ## Add labels
+    for(pos in c("start_up","start_down","end_up","end_down")){
+      vjust = case_when(pos %in% c("start_up","end_up") ~ -0.5, pos %in% c("start_down","end_down") ~ 1.5, .default = NA)
+
+      if(arrows |> filter(!show == "" & label_pos==pos) |> nrow() > 0){
+        if(pos %in% c("start_up","start_down")){
+          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=team,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE)
+        }
+        else{
+          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=xend,y=yend,colour=team,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE)
+        }
+      }
+    }
   }
-  if(length(players) > 0){
+  if(nrow(players) > 0){
     if(animate==F){
       players = players |> filter(frame==static_frame)
     }
-    p = p +
-    geom_point(data=players,aes(x=x,y=y,colour=team,alpha=alpha,group=label),size=8) +
-    geom_text(data=players |> filter(!show == "" & label_pos=="down"), aes(x=x,y=y,colour=team,alpha=alpha,label=show),vjust=3,show.legend = FALSE)
-    #geom_text(data=players |> filter(!show == "" & label_pos=="down"),aes(x=x,y=y,colour=team,alpha=alpha,label=show),vjust=3,show.legend = FALSE) +
-    #geom_text(data=players |> filter(!show == "" & label_pos=="up"),aes(x=x,y=y,colour=team,alpha=alpha,label=show),vjust=-2,show.legend = FALSE) +
-    #geom_text(data=players |> filter(!show == "" & label_pos=="right"),aes(x=x,y=y,colour=team,alpha=alpha,label=show),hjust=-2,show.legend = FALSE) +
-    #geom_text(data=players |> filter(!show == "" & label_pos=="left"),aes(x=x,y=y,colour=team,alpha=alpha,label=show),hjust=3,show.legend = FALSE)
+    p = p + geom_point(data=players,aes(x=x,y=y,colour=team,alpha=alpha,group=label),size=8)
+    ## add labels
+    for(pos in c("up","down","right","left")){
+        vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
+        hjust = case_when(pos == "right" ~ -2, pos == "left" ~ 2, .default = NA)
+        if(players |> filter(!show == "" & label_pos==pos) |> nrow() > 0){
+          p = p + geom_text(data=players |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=team,alpha=alpha,label=show,group=label),vjust=vjust,hjust=hjust,show.legend = FALSE)
+        }
+    }
   }
   p +
     labs(x=NULL,y=NULL,colour="Team",linetype="Arrow")+
@@ -178,7 +195,7 @@ players <- list(
 )
 
 defenders <- list(
-  defender(player_list[[1]],"DA",show=T,xjust=-3,yjust=c(0,0,3),label_pos = "up")
+  defender(player_list[[1]],"DA",show=T,xjust=-3,yjust=c(0,0,3),label_pos = "left")
 )
 player_list <- c(players,defenders)
 
@@ -196,11 +213,10 @@ arrow_list = list(
 pitch = ggpitch(type="full",endzone_fill = "#AA4422")
 
 plot_play(pitch, arrow_list, player_list)
-gp = plot_play(pitch, arrow_list = NULL, player_list,animate = T)
+gp = plot_play(pitch, arrow_list = arrow_list, player_list,animate = T)
 
 ga=gp +
     transition_states(states = frame) #,transition_length = 1,state_length = 1,)
 
 animate(ga, renderer = gifski_renderer())
 
-arrow_list
