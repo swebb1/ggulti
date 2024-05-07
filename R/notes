@@ -1,6 +1,9 @@
 Theming
+Change colour scheme
 
 hstack()
 vstack()
 
 keep_all_paths in animation
+
+Add output options to plotting function

@@ -37,6 +37,19 @@ ggpitch <- function (colour = "dimgray", fill = "white", type = "full", endzone_
   p
 }
 
+hstack <- function(){
+  players <- list(
+    player("H1", show=T, x=c(8), y=c(22), alpha = 0.8, frame = 1),
+    player("H2", show=T, x=c(17), y=c(22), alpha = 0.8, frame = 1),
+    player("H3", show=T, x=c(25), y=c(22), alpha = 0.8, frame = 1),
+    player("C1", show=T, x=c(7), y=c(40), alpha = 0.8, frame = 1),
+    player("C2", show=T, x=c(15), y=c(40), alpha = 0.8, frame = 1),
+    player("C3", show=T, x=c(22), y=c(40), alpha = 0.8, frame = 1),
+    player("C4", show=T, x=c(29), y=c(40), alpha = 0.8, frame = 1)
+  )
+  bind_rows(players)
+}
+
 player <- function(label = "", show = F, object = "Offense", x, y, frame = 1, alpha = 0.5, label_pos = "down"){
   lshow = ""
   if(show == T){
@@ -80,7 +93,7 @@ player_paths <- function(player_list, objects = c("Offense")){
                               x = lag(x), y = lag(y),
                               type = "Cut", arrow_shape = "straight", show="", label_pos="start_down",
                               label = paste0(label,row_number()-1),
-                              frame = frame -1) |>
+                              frame = frame - 1 ) |>
                        filter(!is.na(x), !(x == xend & y == yend)) |>
                        select(label,show,object,type,x,y,xend,yend,frame,alpha,arrow_shape,label_pos)
   })
@@ -123,31 +136,40 @@ throw <- function(player_list,label,show=F,from,to,frame=1,throw_frame,alpha=1,a
   data.frame(label = label, show = lshow, object = object, type = "Throw", x = x, y = y, xend = xend, yend = yend, frame = frame, alpha = alpha, arrow_shape = arrow_shape, label_pos = label_pos)
 }
 
-disc <- function(throws,xjust,yjust,alpha=1,start_frame=1){
-  dp <- 1:length(throws) |> map(function(i){
-    throw = throws[[i]]
-    xstart = throw$x + xjust[i]
-    ystart = throw$y + yjust[i]
-    xend = throw$xend + xjust[i]
-    yend = throw$yend + yjust[i]
-    frame = c(throw$frame,throw$frame+1)
-    data.frame(label = paste0("D_",throw$label),show = "",object = "Disc",x = c(xstart,xend),
-               y = c(ystart,yend),frame = frame, alpha = alpha, label_pos = "down")
-  })
-  bind_rows(dp) |> complete(frame=full_seq(start_frame:max(frame),1)) |>
-    fill(-frame,.direction = "up")
+disc <- function(throw,label,show=F,xjust=c(-1,-1),yjust=c(1,1),alpha=1,frame,release_frame,label_pos="down"){
+    lshow = ""
+    if(!show == F){
+      lshow = "label"
+    }
+
+    x = vector()
+    y = vector()
+    for(i in frame){
+      if(i < release_frame){
+        x = append(x,c(throw[1,]$x + xjust[1]))
+        y = append(y,c(throw[1,]$y + yjust[1]))
+      }
+      else{
+        x = append(x,c(throw[1,]$xend + xjust[2]))
+        y = append(y,c(throw[1,]$yend + yjust[2]))
+      }
+    }
+    data.frame(label = label,show = lshow,object="Disc",x = x,y = y,frame = frame,alpha = alpha,label_pos = label_pos)
 }
 
 arrowtypes = c("Cut" = "solid", "Throw" = "dashed", "Label" = "dotted")
 obj_cols =c("Disc" = "grey","Offense" = "#018571", "Defense" = "#f8766d", "Coach" = "#0571b0")
 obj_shape = c(1)
 
-plot_play <- function(pitch,arrow_list=NULL,object_list=NULL,static_frame=1,animate=F){
+plot_play <- function(pitch,arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,keep_arrows=F){
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
 
   p = pitch
   if(nrow(arrows) > 0){
+    if(animate==F & keep_arrows==F){
+      arrows = arrows |> filter(frame==static_frame)
+    }
     if(arrows |> filter(arrow_shape %in% c("fhrc","bhio")) |> nrow() > 0){
       p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
@@ -204,12 +226,12 @@ plot_play <- function(pitch,arrow_list=NULL,object_list=NULL,static_frame=1,anim
     }
   }
   p +
-    labs(x=NULL,y=NULL,colour="Object",linetype="Arrow")+
+    labs(x=NULL,y=NULL,colour="",linetype="")+
     scale_alpha_identity() +
     guides(alpha="none") +
     theme_minimal()
 }
-plot_play(pitch, arrow_list, object_list,static_frame = 2)
+plot_play(pitch, arrow_list, object_list,static_frame = 2,keep_arrows = T)
 
 players <- list(
   player("A", show=T, x=c(20,20,10),y=c(30,75,50), frame = 1:3, label_pos = "right"),
@@ -234,7 +256,7 @@ arrow_list = list(
 )
 
 disc_list = list(
-  disc(throws,c(-1,-1),c(1,1),start_frame = 1)
+  disc(throws[[1]],"D1",xjust = c(-1,-1),yjust = c(1,1))
 )
 object_list <- c(player_list,disc_list)
 
