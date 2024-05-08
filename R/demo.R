@@ -7,7 +7,8 @@ players <- list(
   player("H1", show=T, x=c(5),y=c(75), alpha = 0.8, frame = 1:3),
   player("H2", show=T, x=c(14), y=c(75), alpha = 0.5, frame = 1:3),
   player("C1", show=T, x=c(18,18,6), y=c(82,98,98), alpha = 0.8,frame = 1:3),
-  player("COACH", show=T,object = "Coach",x = c(38),y=c(70),alpha = 1,frame = 1:3)
+  player("COACH", show=T,object = "Coach",x = c(30),y=c(70),alpha = 1,frame = 1:3),
+  player("q1", show=T, object= "Cone", x=c(17),y=c(60),alpha=0.8,frame=1:3)
 )
 
 ## Add defenders to players
@@ -40,12 +41,12 @@ disc_list = list(
 object_list <- c(player_list,disc_list)
 
 ## Plot the play
-plot_play(pitch, arrow_list, object_list,static_frame = 3,keep_arrows = T)
-plot_play(pitch,arrow_list,object_list,animate=T)
+#plot_play(pitch, arrow_list, object_list,static_frame = 3,keep_arrows = T)
+#plot_play(pitch,arrow_list,object_list,animate=T) + facet_wrap(~frame,nrow = 2) + ylim(50,100)
 
-gp = plot_play(pitch, arrow_list = arrow_list, object_list,animate = T,static_frame = 2,keep_arrows = T)
+#gp = plot_play(pitch, arrow_list = arrow_list, object_list,animate = T,static_frame = 2,keep_arrows = T)
 
-ga=gp +
-  transition_states(states = factor(frame,levels=1:3),transition_length = 1,state_length = 1,wrap=T)
+#ga=gp +
+#  transition_states(states = factor(frame,levels=1:3),transition_length = 1,state_length = 1,wrap=T)
 
-animate(ga, renderer = gifski_renderer())
+#animate(ga, renderer = gifski_renderer())

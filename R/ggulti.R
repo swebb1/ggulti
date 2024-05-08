@@ -34,6 +34,9 @@ ggpitch <- function (colour = "dimgray", fill = "white", type = "full", endzone_
    p = p +
      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),fill=fill,alpha=alpha)
   }
+  if(type=="void"){
+    p
+  }
   p
 }
 
@@ -157,18 +160,30 @@ disc <- function(throw,label,show=F,xjust=c(-1,-1),yjust=c(1,1),alpha=1,frame,re
     data.frame(label = label,show = lshow,object="Disc",x = x,y = y,frame = frame,alpha = alpha,label_pos = label_pos)
 }
 
+all_frames <- function(df,frames){
+  df |> group_by(label) |>
+    complete(frame = full_seq(1:frames,1)) |>
+    fill(-frame,.direction="updown")
+}
+
 arrowtypes = c("Cut" = "solid", "Throw" = "dashed", "Label" = "dotted")
-obj_cols =c("Disc" = "grey","Offense" = "#018571", "Defense" = "#f8766d", "Coach" = "#0571b0")
-obj_shape = c(1)
+obj_cols =c("Disc" = "grey","Offense" = "#018571", "Defense" = "#f8766d", "Coach" = "#0571b0", "Cone" = "darkorange")
+obj_shapes = c("Player"=19,"Disc"=19,"Cone"=17)
+obj_sizes = c("Player"=8,"Disc"=7,"Cone"=4)
 
 plot_play <- function(pitch,arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,keep_arrows=F){
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
 
+  frames = max(arrows$frame,objects$frame)
+
   p = pitch
   if(nrow(arrows) > 0){
     if(animate==F & keep_arrows==F){
       arrows = arrows |> filter(frame==static_frame)
+    }
+    if(animate==T & keep_arrows==T){
+      arrows = arrows |> all_frames(arrows,frames)
     }
     if(arrows |> filter(arrow_shape %in% c("fhrc","bhio")) |> nrow() > 0){
       p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
@@ -214,8 +229,10 @@ plot_play <- function(pitch,arrow_list=NULL,object_list=NULL,static_frame=1,anim
     if(animate==F){
       objects = objects |> filter(frame==static_frame)
     }
-    p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label),size=8) +
-      scale_colour_manual(values=obj_cols)
+    p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label,shape=object,size=object)) +
+      scale_colour_manual(values=obj_cols) +
+      scale_size_manual(values=obj_sizes,na.value = 8) +
+      scale_shape_manual(values=obj_shapes,na.value = 19) +
     ## add labels
     for(pos in c("up","down","right","left")){
         vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
@@ -228,45 +245,8 @@ plot_play <- function(pitch,arrow_list=NULL,object_list=NULL,static_frame=1,anim
   p +
     labs(x=NULL,y=NULL,colour="",linetype="")+
     scale_alpha_identity() +
-    guides(alpha="none") +
+    guides(alpha="none",shape="none",size="none",colour = guide_legend(override.aes = list(size=8))) +
     theme_minimal()
 }
-plot_play(pitch, arrow_list, object_list,static_frame = 2,keep_arrows = T)
 
-players <- list(
-  player("A", show=T, x=c(20,20,10),y=c(30,75,50), frame = 1:3, label_pos = "right"),
-  player("J-DOG", show=T, x=c(10), y=c(20), alpha = 1, frame = 1:3),
-  player("D1",object="Defense",x=c(12), y=c(22), frame = 1:3)
-)
-
-defenders <- list(
-  defender(players[[1]],"DA",show=T,xjust=c(-3,-3,3),yjust=c(0,0,5),label_pos = "left")
-)
-player_list <- c(players,defenders)
-
-throws <- list(
-  throw(player_list,"T1",F,"J-DOG","A",frame=2,throw_frame = 3),
-  throw(player_list,"T2",F,"A","space",frame=3,throw_frame = 3,space_y = 90,arrow_shape = "bhrc")
-)
-
-arrow_list = list(
-  player_paths(player_list),
-  throws,
-  pitch_arrow("Roll Curve", object = "Offense", show = T, x = 5, y = 70, xend = 8, yend =  75, type = "Label", frame = 3,label_pos = "start_down")
-)
-
-disc_list = list(
-  disc(throws[[1]],"D1",xjust = c(-1,-1),yjust = c(1,1))
-)
-object_list <- c(player_list,disc_list)
-
-pitch = ggpitch(type="full",endzone_fill = "#AA4422")
-
-plot_play(pitch, arrow_list, object_list,static_frame = 3)
-gp = plot_play(pitch, arrow_list = arrow_list, object_list,animate = T,static_frame = 2)
-
-ga=gp +
-    transition_states(states = factor(frame,levels=1:4),transition_length = 1,state_length = 1,wrap=F)
-
-animate(ga, renderer = gifski_renderer())
 

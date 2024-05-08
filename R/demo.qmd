@@ -1,0 +1,176 @@
+---
+title: "Endzone offense"
+format: html
+editor: visual
+---
+
+## Endzone
+
+We like endzone. Yes.
+
+## Running Score
+
+When you endzone. No do this:
+
+```{r setup}
+#| echo: false
+#| warning: false
+#| include: false
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+source("ggulti.R")
+library("patchwork")
+```
+
+## Fish eating
+
+```{r values}
+#| echo: false
+#| warning: false
+#| include: false
+#| message: false
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+## Create a pitch
+pitch = ggpitch(type="half_attack",endzone_fill = "#AA4422")
+
+## Set players and positions
+players <- list(
+  player("H1", show=T, x=c(5),y=c(75), alpha = 0.8, frame = 1:3),
+  player("H2", show=T, x=c(14), y=c(75), alpha = 0.5, frame = 1:3),
+  player("C1", show=T, x=c(18,18,6), y=c(82,98,98), alpha = 0.8,frame = 1:3),
+  player("COACH", show=T,object = "Coach",x = c(30),y=c(70),alpha = 1,frame = 1:3),
+  player("q1", show=T, object= "Cone", x=c(17),y=c(60),alpha=0.8,frame=1:3)
+)
+
+## Add defenders to players
+defenders <- list(
+  defender(players[[1]],"D1",show=T,xjust=c(2),yjust=c(2)),
+  defender(players[[2]],"D2",show=T,xjust=c(-3),yjust=c(4)),
+  defender(players[[3]],"D3",show=T,xjust=c(-3,-3,3),yjust=c(-1,-1,-5))
+)
+## Join players and defenders
+player_list <- c(players,defenders)
+
+## Add throws between players
+throws <- list(
+  throw(player_list,"T1",F,"H1","C1",frame=1:2,throw_frame = 3,arrow_shape = "bhrc")
+)
+
+## Create arrow list
+arrow_list = list(
+  player_paths(player_list), ## Add arrows in front of running players
+  throws
+)
+
+## Add a disc
+disc_list = list(
+  disc(throws[[1]],"D1",F,frame = 1:3,release_frame = 3)
+)
+
+## Combine players and disc
+object_list <- c(player_list,disc_list)
+
+```
+
+### Friends with beaks
+
+```{r plot}
+#| echo: false
+#| warnings: false
+#| messages: false
+ 
+p1=plot_play(pitch,arrow_list,object_list,static_frame = 1)
+p2=plot_play(pitch,arrow_list,object_list,static_frame = 2)
+p3=plot_play(pitch,arrow_list,object_list,static_frame = 3)
+
+p1
+p2
+p3
+```
+
+### Friends with curly tails
+
+```{r anime}
+#| echo: false
+#| warnings: false
+#| messages: false
+ 
+p<-plot_play(pitch,arrow_list,object_list,animate=T)
+ga=p +
+  transition_states(states = factor(frame,levels=1:3),transition_length = 1,state_length = 1,wrap=T)
+
+animate(ga, renderer = gifski_renderer())
+```
+
+### 
+
+```{r values2}
+#| echo: false
+#| warning: false
+#| include: false
+#| message: false
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+## Create a pitch
+pitch = ggpitch(type="full",endzone_fill = "#AA4422")
+
+## Set players and positions
+players <- list(
+  player("H1", show=T, x=c(5),y=c(20), alpha = 0.8, frame = 1:3),
+  player("H2", show=F, x=c(14), y=c(20), alpha = 0.5, frame = 1:3),
+  player("H3", show=F, x=c(32),y=c(25), alpha = 0.5, frame = 1:3),
+  player("C1", show=T, x=c(2,10,10),y=c(40,39,70), alpha = 0.8, frame = 1:3),
+  player("C2", show=T, x=c(18,18,5),y=c(40,70,40), alpha = 0.8, frame = 1:3),
+  player("C3", show=F, x=c(34),y=c(40), alpha = 0.5, frame = 1:3),
+  player("C4", show=F, x=c(35),y=c(40), alpha = 0.5, frame = 1:3)
+)
+
+## Add defenders to players
+defenders <- list(
+  defender(players[[1]],"DH1",show=T,xjust=c(1),yjust=c(1)),
+  defender(players[[4]],"DC1",show=F,xjust=c(-1,-1,-1),yjust=c(-1,1,3)),
+  defender(players[[5]],"DC2",show=F,xjust=c(-2,-2,-2),yjust=c(-1,-1,-1))
+)
+## Join players and defenders
+player_list <- c(players,defenders)
+
+## Add throws between players
+throws <- list(
+  throw(player_list,"T1",F,"H1","C2",frame=1:2,throw_frame = 3,arrow_shape = "bhrc")
+)
+
+## Create arrow list
+arrow_list = list(
+  player_paths(player_list), ## Add arrows in front of running players
+  throws
+)
+
+## Add a disc
+disc_list = list(
+  disc(throws[[1]],"D1",F,frame = 1:3,release_frame = 3)
+)
+
+## Combine players and disc
+object_list <- c(player_list,disc_list)
+
+```
+
+### Friends undergound
+
+```{r plot2}
+#| echo: false
+#| warnings: false
+#| messages: false
+#| fig-height: 8
+#| fig-width: 8
+ 
+p=plot_play(pitch,arrow_list,object_list,animate = T,keep_arrows = T)
+ga=p +
+  transition_states(states = factor(frame,levels=1:3),transition_length = 1,state_length = 1,wrap=T)
+
+animate(ga, renderer = gifski_renderer())
+```
+
+
+
