@@ -1,1 +1,8 @@
 exportPattern("^[[:alpha:]]+")
+import(ggplot2)
+import(dplyr)
+import(purrr)
+import(stringr)
+import(tidyr)
+import(gganimate)
+import(gifski)
