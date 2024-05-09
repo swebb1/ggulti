@@ -364,7 +364,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label,shape=object,size=object)) +
       scale_colour_manual(values=obj_cols) +
       scale_size_manual(values=obj_sizes,na.value = 8) +
-      scale_shape_manual(values=obj_shapes,na.value = 19) +
+      scale_shape_manual(values=obj_shapes,na.value = 19)
     ## add labels
     for(pos in c("up","down","right","left")){
         vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
