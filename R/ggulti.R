@@ -26,7 +26,7 @@ library(gifski)
 #' @examples
 #' ggpitch()
 #' ggpitch("half_attack",endzone_fill="blue")
-ggpitch <- function (type = "full", colour = "dimgray", fill = "white", endzone_fill = "#AA4422",
+ggpitch <- function (type = "full", colour = "dimgray", fill = "white", endzone_fill = "#D55E00",
                      linewidth = 0.5, alpha = 1, endzone_alpha=0.2, linetype = "solid",
                      xmin = 0, xmax = 37, ymin = 0, ymax = 100, zone_depth = 18)
 {
@@ -289,7 +289,7 @@ all_frames <- function(df,frames){
 
 # Hardcoded plotting variables
 arrowtypes = c("Cut" = "solid", "Throw" = "dashed", "Label" = "dotted")
-obj_cols =c("Disc" = "grey","Offense" = "#018571", "Defense" = "#f8766d", "Coach" = "#0571b0", "Cone" = "darkorange")
+obj_cols =c("Disc" = "grey","Offense" = "#009E73","Defense" = "#0072B2", "Coach" = "#f8766d", "Cone" = "darkorange")
 obj_shapes = c("Player"=19,"Disc"=19,"Cone"=17)
 obj_sizes = c("Player"=8,"Disc"=7,"Cone"=4)
 
@@ -301,10 +301,11 @@ obj_sizes = c("Player"=8,"Disc"=7,"Cone"=4)
 #' @param static_frame Which frame to show in a static plot : default = 1
 #' @param animate Show all frames so plot can be animated : F (default), T
 #' @param keep_arrows Show arrows in all frames and only apply frames to objects : F (default), T
+#' @param default_point_size Default size of objects : default = 8
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,keep_arrows=F){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,keep_arrows=F,default_point_size=8){
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
 
@@ -363,7 +364,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     }
     p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label,shape=object,size=object)) +
       scale_colour_manual(values=obj_cols) +
-      scale_size_manual(values=obj_sizes,na.value = 8) +
+      scale_size_manual(values=obj_sizes,na.value = default_point_size) +
       scale_shape_manual(values=obj_shapes,na.value = 19)
     ## add labels
     for(pos in c("up","down","right","left")){

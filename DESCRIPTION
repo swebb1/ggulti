@@ -11,3 +11,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
 Imports: ggplot2, dplyr, purrr, stringr, tidyr, gganimate, gifski
+URL: https://swebb1.github.io/ggulti/
