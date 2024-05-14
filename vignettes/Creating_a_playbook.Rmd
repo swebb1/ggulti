@@ -2,7 +2,7 @@
 title: "Creating a playbook"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Writing_a_playbook}
+  %\VignetteIndexEntry{Creating a playbook}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,8 +11,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7,
-  fig.height = 8
+  fig.width = 6,
+  fig.height = 6
 )
 ```
 
@@ -155,33 +155,35 @@ By default the object will present as an offense object. You can change the defa
 plot_play(pitch,object_list = custom,default_obj_col="black")
 ```
 
-Alternatively, you can add custom objects to the ggulti plot values object:
+Alternatively, you can use the `pv` argument to add a new list of plotting values. The `ggulti_plot_values` object gives access to default values:
 
 ```{r, message=FALSE, warning=FALSE}
-ggulti_plot_values$obj_cols["Ref"] <- "black"
-ggulti_plot_values$obj_shapes["Ref"] <- 18
-ggulti_plot_values$obj_sizes["Ref"] <- 2 
+pv <- ggulti_plot_values
+pv$obj_cols <- c(pv$obj_cols,"Referee" = "black")
+pv$obj_shapes <- c(pv$obj_shapes,"Referee" = 18)
+pv$obj_sizes <- c(pv$obj_sizes,"Referee" = 2)
 
-plot_play(pitch,object_list = custom)
+plot_play(pitch,object_list = custom, pv=pv)
 ```
 
-By customising objects, you can specifiy specific teams or even colour positions in a zone differently.
+By customising objects, you can specifiy specific teams, genders or even psoitions e.g.
 
 ```{r, message=FALSE, warning=FALSE}
-zone_positions <- c("Cup" = "blue", "Wing" = "red", "Mid" = "yellow", "Deep" = "green")
-ggulti_plot_values$obj_cols <- append(ggulti_plot_values$obj_cols, zone_positions)
+zone_positions <- c("Cup" = "blue", "Wing" = "red", "Mid" = "purple", "Deep" = "green")
+pv <- ggulti_plot_values
+pv$obj_cols <- c(ggulti_plot_values$obj_cols, zone_positions)
 
 zone <- list(
-  pitch_object("Cup", show=T, x=c(14), y=c(25)),
-  pitch_object("Cup", show=T, x=c(18), y=c(28)),
-  pitch_object("Cup", show=T, x=c(22), y=c(25)),
-  pitch_object("Wing", show=T, x=c(10), y=c(40)),
-  pitch_object("Wing", show=T, x=c(27), y=c(40)),
-  pitch_object("Mid", show=T, x=c(18), y=c(38)),
-  pitch_object("Deep", show=T, x=c(18), y=c(60))
+  pitch_object("C1", show=T, object = "Cup", x=c(14), y=c(25)),
+  pitch_object("C2", show=T, object = "Cup", x=c(18), y=c(28)),
+  pitch_object("C3", show=T, object = "Cup", x=c(22), y=c(25)),
+  pitch_object("W1", show=T, object = "Wing", x=c(10), y=c(40)),
+  pitch_object("W2", show=T, object = "Wing", x=c(27), y=c(40)),
+  pitch_object("Mid", show=T, object = "Mid", x=c(18), y=c(38), label_pos = "up"),
+  pitch_object("Deep", show=T, object = "Deep", x=c(18), y=c(60))
 )
 
-plot_play(ggpitch(endzone_fill="darkgrey"),object_list = zone)
+plot_play(ggpitch(endzone_fill="darkgrey"),object_list = zone,pv=pv)
 
 ```
 
