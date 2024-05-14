@@ -3,7 +3,7 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   Creating_a_playbook: Creating_a_playbook.html
-last_built: 2024-05-14T11:15Z
+last_built: 2024-05-14T11:27Z
 urls:
   reference: https://swebb1.github.io/ggulti/reference
   article: https://swebb1.github.io/ggulti/articles
