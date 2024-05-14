@@ -56,7 +56,7 @@ ggpitch <- function (type = "full", colour = "dimgray", fill = "white", endzone_
   if(type=="void"){
     p
   }
-  p
+  p + theme_minimal()
 }
 
 #' Helper function to print a list of 7 players in horizontal stack formation
@@ -290,8 +290,14 @@ all_frames <- function(df,frames){
 # Hardcoded plotting variables
 arrowtypes = c("Cut" = "solid", "Throw" = "dashed", "Label" = "dotted")
 obj_cols =c("Disc" = "grey","Offense" = "#009E73","Defense" = "#0072B2", "Coach" = "#f8766d", "Cone" = "darkorange")
-obj_shapes = c("Player"=19,"Disc"=19,"Cone"=17)
-obj_sizes = c("Player"=8,"Disc"=7,"Cone"=4)
+obj_shapes = c("Disc"=19,"Cone"=17)
+obj_sizes = c("Disc"=7,"Cone"=4)
+ggulti_plot_values = list(
+  arrowtypes = arrowtypes,
+  obj_cols = obj_cols,
+  obj_shapes = obj_shapes,
+  obj_sizes = obj_sizes
+)
 
 #' Plotting function to create final graphic with a pitch, objects and arrows.
 #'
@@ -299,22 +305,27 @@ obj_sizes = c("Player"=8,"Disc"=7,"Cone"=4)
 #' @param arrow_list List of pitch_arrow dataframes
 #' @param object_list List of pitch_object dataframes
 #' @param static_frame Which frame to show in a static plot : default = 1
-#' @param animate Show all frames so plot can be animated : F (default), T
+#' @param animate Output a gif instead of an image : F (default), T
+#' @param transition_length Transition time (s) for animations : default = 1
+#' @param state_length State time (s) for animations : default = 0.5
 #' @param keep_arrows Show arrows in all frames and only apply frames to objects : F (default), T
-#' @param default_point_size Default size of objects : default = 8
+#' @param show_all Show all frames together in one image : F (default), T
+#' @param default_obj_size Default point size for objects : default = 8
+#' @param default_obj_shape Default shape for objects : default = 19
+#' @param default_obj_col Default colour for objects : default = #009E73
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,keep_arrows=F,default_point_size=8){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73"){
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
 
   p = pitch
   if(nrow(arrows) > 0){
-    if(animate==F & keep_arrows==F){
+    if((animate==F & show_all==F) & keep_arrows==F){
       arrows = arrows |> filter(frame==static_frame)
     }
-    if(animate==T & keep_arrows==T){
+    if(keep_arrows==T){
       frames = max(arrows$frame,objects$frame)
       arrows = all_frames(arrows,frames)
     }
@@ -341,7 +352,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
                  arrow = arrow(length = unit(0.25, "cm"),
                                type = "closed"))
     }
-    p = p + scale_linetype_manual(values=arrowtypes)
+    p = p + scale_linetype_manual(values=ggulti_plot_values$arrowtypes)
 
     ## Add labels
     for(pos in c("start_up","start_down","end_up","end_down")){
@@ -359,13 +370,13 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
   }
 
   if(nrow(objects) > 0){
-    if(animate==F){
+    if((animate==F & show_all==F)){
       objects = objects |> filter(frame==static_frame)
     }
     p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label,shape=object,size=object)) +
-      scale_colour_manual(values=obj_cols) +
-      scale_size_manual(values=obj_sizes,na.value = default_point_size) +
-      scale_shape_manual(values=obj_shapes,na.value = 19)
+      scale_colour_manual(values=ggulti_plot_values$obj_cols,na.value = default_obj_col) +
+      scale_size_manual(values=ggulti_plot_values$obj_sizes,na.value = default_obj_size) +
+      scale_shape_manual(values=ggulti_plot_values$obj_shapes,na.value = default_obj_shape)
     ## add labels
     for(pos in c("up","down","right","left")){
         vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
@@ -375,11 +386,21 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
         }
     }
   }
-  p +
+  p = p +
     labs(x=NULL,y=NULL,colour="",linetype="")+
     scale_alpha_identity() +
     guides(alpha="none",shape="none",size="none",colour = guide_legend(override.aes = list(size=8))) +
     theme_minimal()
+  if(animate == T){
+    ga = p + transition_states(states = factor(frame,levels=1:3),
+                               transition_length = transition_length,
+                               state_length = state_length,
+                               wrap=T)
+    animate(ga, renderer = gifski_renderer())
+  }
+  else{
+    p
+  }
 }
 
 
