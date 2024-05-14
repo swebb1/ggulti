@@ -316,7 +316,8 @@ ggulti_plot_values = list(
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73"){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",pv=ggulti_plot_values){
+
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
 
@@ -352,7 +353,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
                  arrow = arrow(length = unit(0.25, "cm"),
                                type = "closed"))
     }
-    p = p + scale_linetype_manual(values=ggulti_plot_values$arrowtypes)
+    p = p + scale_linetype_manual(values=pv$arrowtypes)
 
     ## Add labels
     for(pos in c("start_up","start_down","end_up","end_down")){
@@ -374,13 +375,13 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
       objects = objects |> filter(frame==static_frame)
     }
     p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label,shape=object,size=object)) +
-      scale_colour_manual(values=ggulti_plot_values$obj_cols,na.value = default_obj_col) +
-      scale_size_manual(values=ggulti_plot_values$obj_sizes,na.value = default_obj_size) +
-      scale_shape_manual(values=ggulti_plot_values$obj_shapes,na.value = default_obj_shape)
+      scale_size_manual(values=pv$obj_sizes,na.value = default_obj_size) +
+      scale_colour_manual(values=pv$obj_cols,na.value = default_obj_col) +
+      scale_shape_manual(values=pv$obj_shapes,na.value = default_obj_shape)
     ## add labels
     for(pos in c("up","down","right","left")){
         vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
-        hjust = case_when(pos == "right" ~ -2, pos == "left" ~ 2, .default = NA)
+        hjust = case_when(pos == "right" ~ -1, pos == "left" ~ 2, .default = NA)
         if(objects |> filter(!show == "" & label_pos==pos) |> nrow() > 0){
           p = p + geom_text(data=objects |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,hjust=hjust,show.legend = FALSE)
         }
