@@ -2,8 +2,8 @@ pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  Creating_a_playbook: Creating_a_playbook.html
-last_built: 2024-05-14T11:27Z
+  Drawing_up_plays: Drawing_up_plays.html
+last_built: 2024-05-14T20:07Z
 urls:
   reference: https://swebb1.github.io/ggulti/reference
   article: https://swebb1.github.io/ggulti/articles
