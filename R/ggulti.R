@@ -287,6 +287,18 @@ all_frames <- function(df,frames){
     fill(-frame,.direction="updown")
 }
 
+#' Export an object or arrow list as a tsv file arranged by frames. This is useful for making manual edits.
+#'
+#' @param list Either a list of objects or arrows
+#' @param filename Name of the file to save : default = "frames.tsv"
+#' @return A data.frame
+#' @examples
+#' export_frames(object_list)
+export_frames <- function(list,filename="frames.tsv"){
+  df <- list |> bind_rows() |> arrange(frame,label)
+  write_tsv(df,filename)
+}
+
 # Hardcoded plotting variables
 arrowtypes = c("Cut" = "solid", "Throw" = "dashed", "Label" = "dotted")
 obj_cols =c("Disc" = "grey","Offense" = "#009E73","Defense" = "#0072B2", "Coach" = "#f8766d", "Cone" = "darkorange")
