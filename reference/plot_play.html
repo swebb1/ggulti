@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Drawing_up_plays.html">Drawing up plays with ggulti</a>
+    <a class="dropdown-item" href="../articles/Example_playbook.html">Example playbook</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -54,7 +55,17 @@
 <span>  object_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  static_frame <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  animate <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  keep_arrows <span class="op">=</span> <span class="cn">F</span></span>
+<span>  animation_height <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  animation_width <span class="op">=</span> <span class="fl">4.5</span>,</span>
+<span>  shadow <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  transition_length <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  state_length <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  keep_arrows <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  show_all <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  default_obj_size <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  default_obj_shape <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>  default_obj_col <span class="op">=</span> <span class="st">"#009E73"</span>,</span>
+<span>  pv <span class="op">=</span> <span class="va">ggulti_plot_values</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -77,11 +88,47 @@
 
 
 <dt>animate</dt>
-<dd><p>Show all frames so plot can be animated : F (default), T</p></dd>
+<dd><p>Output a gif instead of an image : F (default), T</p></dd>
+
+
+<dt>shadow</dt>
+<dd><p>Add a shadow to objects in animation : T, F (default)</p></dd>
+
+
+<dt>transition_length</dt>
+<dd><p>Transition time (s) for animations : default = 1</p></dd>
+
+
+<dt>state_length</dt>
+<dd><p>State time (s) for animations : default = 0.5</p></dd>
 
 
 <dt>keep_arrows</dt>
 <dd><p>Show arrows in all frames and only apply frames to objects : F (default), T</p></dd>
+
+
+<dt>show_all</dt>
+<dd><p>Show all frames together in one image : F (default), T</p></dd>
+
+
+<dt>default_obj_size</dt>
+<dd><p>Default point size for objects : default = 8</p></dd>
+
+
+<dt>default_obj_shape</dt>
+<dd><p>Default shape for objects : default = 19</p></dd>
+
+
+<dt>default_obj_col</dt>
+<dd><p>Default colour for objects : default = #009E73</p></dd>
+
+
+<dt>animate_height</dt>
+<dd><p>Manually set animation height : default = 5</p></dd>
+
+
+<dt>animate_width</dt>
+<dd><p>Manually set animation width : default = 4.5</p></dd>
 
 </dl></div>
     <div class="section level2">
