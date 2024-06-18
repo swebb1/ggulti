@@ -1,0 +1,70 @@
+---
+title: "Example playbook"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example playbook}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 6,
+  fig.path = "."
+)
+```
+
+## Set Plays
+
+### Horizontal
+
+#### Fox
+
+```{r,warning=FALSE,message=FALSE}
+library(ggulti)
+
+## Set players and positions
+players <- list(
+  pitch_object("H1", show=T, x=c(20),y=c(28), alpha = 0.8, frame = 1:3),
+  pitch_object("H2", show=T, x=c(20), y=c(20), alpha = 0.5, frame = 1:3),
+  pitch_object("H3", show=F, x=c(5), y=c(19), alpha = 0.5,frame = 1:3),
+  pitch_object("H4", show=F, x=c(7), y=c(18), alpha = 0.5,frame = 1:3),
+  pitch_object("Fox", show=T, x=c(26,17,21), y=c(42,40,75), alpha = 0.8,frame = 1:3),
+  pitch_object("C1", show=F, x=c(3), y=c(36), alpha = 0.5,frame = 1:3),
+  pitch_object("C2", show=F, x=c(3), y=c(40), alpha = 0.5,frame = 1:3)
+)
+
+## Add defence
+defenders <- list(
+ defender(players[[1]],"D1",show=F,xjust = -1.5,yjust = 1.5) 
+)
+## Join players and defenders
+player_list <- c(players,defenders)
+
+## Add throws between players
+throws <- list(
+  throw(player_list,"T1",F,"H1","Fox",frame=1:3,throw_frame = 3,arrow_shape = "fhrc")
+)
+
+## Create arrow list
+arrow_list = list(
+  object_paths(player_list), ## Add arrows in front of running players
+  throws
+)
+
+## Add a disc
+disc_list = list(
+  disc(throws[[1]],"D1",F,frame = 1:3,release_frame = 3,xjust = c(1,1),yjust = c(1,-1))
+)
+
+## Combine players and disc
+object_list <- c(player_list,disc_list)
+
+```
+
+```{r,warning=FALSE,message=FALSE}
+plot_play(ggpitch(),arrow_list,object_list,animate=T,shadow=T)
+```

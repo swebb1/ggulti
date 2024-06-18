@@ -49,6 +49,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Drawing_up_plays.html">Drawing up plays with ggulti</a>
+    <a class="dropdown-item" href="../articles/Example_playbook.html">Example playbook</a>
   </div>
 </li>
       </ul>
@@ -393,7 +394,7 @@ yourself.</p>
 <span></span>
 <span><span class="va">ap</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://gganimate.com/reference/transition_states.html" class="external-link">transition_states</a></span><span class="op">(</span>states <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">frame</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, transition_length <span class="op">=</span> <span class="fl">0.5</span>, state_length <span class="op">=</span> <span class="fl">0.5</span>, wrap<span class="op">=</span><span class="cn">F</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html" class="external-link">shadow_mark</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span>, colour <span class="op">=</span> <span class="st">'grey'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html" class="external-link">shadow_mark</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0</span>, colour <span class="op">=</span> <span class="st">'grey'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html" class="external-link">enter_fade</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://gganimate.com/reference/animate.html" class="external-link">animate</a></span><span class="op">(</span><span class="va">ap</span>, renderer <span class="op">=</span> <span class="fu"><a href="https://gganimate.com/reference/renderers.html" class="external-link">gifski_renderer</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>

@@ -9,7 +9,7 @@ ggpitch(
   type = "full",
   colour = "dimgray",
   fill = "white",
-  endzone_fill = "#AA4422",
+  endzone_fill = "#D55E00",
   linewidth = 0.5,
   alpha = 1,
   endzone_alpha = 0.2,

@@ -10,7 +10,17 @@ plot_play(
   object_list = NULL,
   static_frame = 1,
   animate = F,
-  keep_arrows = F
+  animation_height = 5,
+  animation_width = 4.5,
+  shadow = F,
+  transition_length = 1,
+  state_length = 0.5,
+  keep_arrows = F,
+  show_all = F,
+  default_obj_size = 8,
+  default_obj_shape = 19,
+  default_obj_col = "#009E73",
+  pv = ggulti_plot_values
 )
 }
 \arguments{
@@ -22,9 +32,27 @@ plot_play(
 
 \item{static_frame}{Which frame to show in a static plot : default = 1}
 
-\item{animate}{Show all frames so plot can be animated : F (default), T}
+\item{animate}{Output a gif instead of an image : F (default), T}
+
+\item{shadow}{Add a shadow to objects in animation : T, F (default)}
+
+\item{transition_length}{Transition time (s) for animations : default = 1}
+
+\item{state_length}{State time (s) for animations : default = 0.5}
 
 \item{keep_arrows}{Show arrows in all frames and only apply frames to objects : F (default), T}
+
+\item{show_all}{Show all frames together in one image : F (default), T}
+
+\item{default_obj_size}{Default point size for objects : default = 8}
+
+\item{default_obj_shape}{Default shape for objects : default = 19}
+
+\item{default_obj_col}{Default colour for objects : default = #009E73}
+
+\item{animate_height}{Manually set animation height : default = 5}
+
+\item{animate_width}{Manually set animation width : default = 4.5}
 }
 \value{
 A ggplot object
