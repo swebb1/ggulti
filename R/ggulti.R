@@ -330,7 +330,7 @@ ggulti_plot_values = list(
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=800,animation_height=800,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",pv=ggulti_plot_values){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",pv=ggulti_plot_values){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
