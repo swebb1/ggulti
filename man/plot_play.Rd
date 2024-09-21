@@ -10,8 +10,9 @@ plot_play(
   object_list = NULL,
   static_frame = 1,
   animate = F,
-  animation_height = 5,
-  animation_width = 4.5,
+  animation_res = 150,
+  animation_width = 800,
+  animation_height = 800,
   shadow = F,
   transition_length = 1,
   state_length = 0.5,
@@ -50,9 +51,7 @@ plot_play(
 
 \item{default_obj_col}{Default colour for objects : default = #009E73}
 
-\item{animate_height}{Manually set animation height : default = 5}
-
-\item{animate_width}{Manually set animation width : default = 4.5}
+\item{animate_res}{Manually set animation resolution : default = 80}
 }
 \value{
 A ggplot object

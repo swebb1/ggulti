@@ -318,8 +318,7 @@ ggulti_plot_values = list(
 #' @param object_list List of pitch_object dataframes
 #' @param static_frame Which frame to show in a static plot : default = 1
 #' @param animate Output a gif instead of an image : F (default), T
-#' @param animate_height Manually set animation height : default = 5
-#' @param animate_width Manually set animation width : default = 4.5
+#' @param animate_res Manually set animation resolution : default = 80
 #' @param shadow Add a shadow to objects in animation : T, F (default)
 #' @param transition_length Transition time (s) for animations : default = 1
 #' @param state_length State time (s) for animations : default = 0.5
@@ -331,7 +330,7 @@ ggulti_plot_values = list(
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_height=3,animation_width=3,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",pv=ggulti_plot_values){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=800,animation_height=800,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",pv=ggulti_plot_values){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
@@ -408,15 +407,15 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     guides(alpha="none",shape="none",size="none",colour = guide_legend(override.aes = list(size=8))) +
     theme_minimal()
   if(animate == T){
-    ga = p + transition_states(states = factor(frame,levels=1:3),
+    ga = p + transition_states(states = factor(frame,levels=1:max(frame)),
                                transition_length = transition_length,
                                state_length = state_length,
                                wrap=T)
 
     if(shadow == T){
-      ga = ga + shadow_mark(colour = 'grey') + enter_fade()
+      ga = ga + shadow_mark(size = 0, colour = 'grey') + enter_fade()
     }
-    animate(ga, renderer = gifski_renderer())
+    animate(ga, renderer = gifski_renderer(),res = animation_res,width = animation_width,height = animation_height)
   }
   else{
     p
