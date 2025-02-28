@@ -101,6 +101,26 @@ pitch_object <- function(label = "", show = F, object = "Offense", x, y, frame =
   data.frame(label = label, show = lshow, object = object, x = x, y = y, frame = frame, alpha = alpha, label_pos = label_pos)
 }
 
+#' Create multiple a list of pitch_objects which do not move throughout all frames. Objects are represented with geom_point in the plot_play() function.
+#' Static objects could be cones or players in a queue.
+#'
+#' @param label Name for the object (required)
+#' @param show Show the label in plots : default = F
+#' @param object Name for the type of object : "Offense" (default), "Defense", "Coach", "Cone", "Disc" are recognised but can be anything.
+#' @param x Vector of x-coords covered by the object (required)
+#' @param y Vector of y-coords covered by the object (required)
+#' @param frame Vector of frames to show the object in : default = 1
+#' @param alpha Colour opacity of the object : default = 0.5
+#' @param label_pos Position of label relative to object : "down" (default), "up", "left", "right"
+#' @return A data.frame
+#' @examples
+#' static_objects(label="Cone", object = "Cone",x = c(10,28),y = 62,alpha = 0.5, frame=1:4),
+#' static_objects(label="queue", x = c(10,28), y = c(58,58,56,56,54,54,52,52), alpha = 0.2, frame=1:4)
+static_objects <- function(label, show = F, object = "Offense",x, y, frame = 1, alpha = 0.5, label_pos = "down"){
+  df <- data.frame(x = x,y = y)
+  1:nrow(df) |> map(~pitch_object(label=paste0(label,.x), object = object,x = df$x[.x],y = df$y[.x],alpha = alpha,frame = frame))
+}
+
 #' Convenience function to create a Defense pitch_object dataframe which tracks another objects movements.
 #'
 #' @param player Name of the object_dataframe to track (required)
@@ -210,7 +230,7 @@ throw <- function(object_list,label,show=F,from,to,frame=1,throw_frame,alpha=1,a
     lshow = label
   }
 
-  p <- player_list |> bind_rows()
+  p <- object_list |> bind_rows()
 
   object = p |> filter(label == from, frame == throw_frame) |> pull(object)
   x = p |> filter(label == from, frame == throw_frame) |> pull(x)
