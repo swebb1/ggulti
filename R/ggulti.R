@@ -327,10 +327,12 @@ ggulti_plot_values = list(
 #' @param default_obj_size Default point size for objects : default = 8
 #' @param default_obj_shape Default shape for objects : default = 19
 #' @param default_obj_col Default colour for objects : default = #009E73
+#' @param obj_exclude Exclude objects from guide : default = c("Cone")
+#' @param pv Replace default plotting values for objects
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",pv=ggulti_plot_values){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
@@ -388,10 +390,11 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     if((animate==F & show_all==F)){
       objects = objects |> filter(frame==static_frame)
     }
+    breaks = objects |> filter(!object %in% obj_exclude) |> pull(object) |> unique()
     p = p + geom_point(data=objects,aes(x=x,y=y,colour=object,alpha=alpha,group=label,shape=object,size=object)) +
-      scale_size_manual(values=pv$obj_sizes,na.value = default_obj_size) +
-      scale_colour_manual(values=pv$obj_cols,na.value = default_obj_col) +
-      scale_shape_manual(values=pv$obj_shapes,na.value = default_obj_shape)
+      scale_size_manual(values=pv$obj_sizes,na.value = default_obj_size,breaks = breaks) +
+      scale_colour_manual(values=pv$obj_cols,na.value = default_obj_col,breaks = breaks) +
+      scale_shape_manual(values=pv$obj_shapes,na.value = default_obj_shape,breaks = breaks)
     ## add labels
     for(pos in c("up","down","right","left")){
         vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
