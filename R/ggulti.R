@@ -34,20 +34,20 @@ ggpitch <- function (type = "full", colour = "dimgray", fill = "white", endzone_
   if(type=="full"){
     p = p +
       geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),fill=fill,colour=colour,linewidth=linewidth,alpha=alpha,linetype=linetype) +
-      geom_rect(aes(xmin=0,xmax=37,ymin=0,ymax=18),fill=endzone_fill,colour=colour,linewidth=linewidth,alpha=endzone_alpha,linetype=linetype) +
-      geom_rect(aes(xmin=0,xmax=37,ymin=82,ymax=100),fill=endzone_fill,colour=colour,linewidth=linewidth,alpha=endzone_alpha,linetype=linetype)
+      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymin+zone_depth),fill=endzone_fill,colour=colour,linewidth=linewidth,alpha=endzone_alpha,linetype=linetype) +
+      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymax-zone_depth,ymax=ymax),fill=endzone_fill,colour=colour,linewidth=linewidth,alpha=endzone_alpha,linetype=linetype)
   }
   if(type=="half_attack"){
     p = p +
-      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymax/2,ymax=ymax),fill=fill,colour=colour,linewidth=linewidth,alpha=alpha,linetype=linetype) +
+      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),fill=fill,colour=colour,linewidth=linewidth,alpha=alpha,linetype=linetype) +
       geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymax-zone_depth,ymax=ymax),fill=endzone_fill,colour=colour,linewidth=linewidth,alpha=endzone_alpha,linetype=linetype)+
-      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymax/2,ymax=ymax/2),fill=fill,colour=fill,alpha=alpha)
+      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymin),fill=fill,colour=fill,alpha=alpha)
   }
   if(type=="half_defend"){
     p = p +
-      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax/2),fill=fill,colour=colour,linewidth=linewidth,alpha=alpha,linetype=linetype) +
+      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),fill=fill,colour=colour,linewidth=linewidth,alpha=alpha,linetype=linetype) +
       geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymin+zone_depth),fill=endzone_fill,colour=colour,linewidth=linewidth,alpha=endzone_alpha,linetype=linetype)+
-      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymax/2,ymax=ymax/2),fill=fill,colour=fill,alpha=alpha)
+      geom_rect(aes(xmin=xmin,xmax=xmax,ymin=ymax,ymax=ymax),fill=fill,colour=fill,alpha=alpha)
   }
   if(type=="blank"){
    p = p +
