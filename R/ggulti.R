@@ -66,13 +66,13 @@ ggpitch <- function (type = "full", colour = "dimgray", fill = "white", endzone_
 #' hstack
 hstack <- function(){
   players <- list(
-    player("H1", show=T, x=c(8), y=c(22), alpha = 0.8, frame = 1),
-    player("H2", show=T, x=c(17), y=c(22), alpha = 0.8, frame = 1),
-    player("H3", show=T, x=c(25), y=c(22), alpha = 0.8, frame = 1),
-    player("C1", show=T, x=c(7), y=c(40), alpha = 0.8, frame = 1),
-    player("C2", show=T, x=c(15), y=c(40), alpha = 0.8, frame = 1),
-    player("C3", show=T, x=c(22), y=c(40), alpha = 0.8, frame = 1),
-    player("C4", show=T, x=c(29), y=c(40), alpha = 0.8, frame = 1)
+    pitch_object("H1", show=T, x=c(8.5), y=c(22), alpha = 0.8, frame = 1),
+    pitch_object("H2", show=T, x=c(19), y=c(22), alpha = 0.8, frame = 1),
+    pitch_object("H3", show=T, x=c(29), y=c(22), alpha = 0.8, frame = 1),
+    pitch_object("C1", show=T, x=c(3), y=c(40), alpha = 0.8, frame = 1),
+    pitch_object("C2", show=T, x=c(12.5), y=c(40), alpha = 0.8, frame = 1),
+    pitch_object("C3", show=T, x=c(24.5), y=c(40), alpha = 0.8, frame = 1),
+    pitch_object("C4", show=T, x=c(34), y=c(40), alpha = 0.8, frame = 1)
   )
   bind_rows(players)
 }
@@ -135,7 +135,7 @@ static_objects <- function(label, show = F, object = "Offense",x, y, frame = 1, 
 #' @return A data.frame
 #' @examples
 #' defender(player_list[[1]], "D1", x = c(-1,-1,5), y = c(2,2,5))
-defender <-function(player,label = "", show = NA, object = "Defense", xjust = -1, yjust = -1, frame = NA, alpha = NA, label_pos = NA){
+defender <-function(player,label = "", show = F, object = "Defense", xjust = -1, yjust = -1, frame = NA, alpha = NA, label_pos = NA){
   if(is.na(frame)){
     frame = player$frame
   }
@@ -144,9 +144,6 @@ defender <-function(player,label = "", show = NA, object = "Defense", xjust = -1
   }
   if(is.na(label_pos)){
     label_pos = player$label_pos
-  }
-  if(is.na(show)){
-    show = player$show
   }
   lshow = ""
   if(show == T){
@@ -224,17 +221,25 @@ object_paths <- function(object_list, objects = c("Offense")){
 #' @examples
 #' throw(player_list,"T1", from = "H1", to = "C1", frame = 1:3, throw_frame = 3)
 #' throw(player_list,"T1", from = "H1", to = "space", space_x = 5, space_y = 90, arrow_shape = "bhrc", frame = 2:3, throw_frame = 3)
-throw <- function(object_list,label,show=F,from,to,frame=1,throw_frame,alpha=1,arrow_shape="straight",space_x=NA,space_y=NA,label_pos="start_down"){
+throw <- function(object_list,label,show=F,from,to,frame=1,throw_frame=NA,catch_frame=NA,release_frame=NA,alpha=1,arrow_shape="straight",space_x=NA,space_y=NA,label_pos="start_down"){
   lshow = ""
   if(show == T){
     lshow = label
   }
 
+  ## Can still use throw_frame to define the release and catch frame
+  if(is.na(catch_frame)){
+    catch_frame = throw_frame
+  }
+  if(is.na(release_frame)){
+    release_frame = throw_frame
+  }
+
   p <- object_list |> bind_rows()
 
-  object = p |> filter(label == from, frame == throw_frame) |> pull(object)
-  x = p |> filter(label == from, frame == throw_frame) |> pull(x)
-  y = p |> filter(label == from, frame == throw_frame) |> pull(y)
+  object = p |> filter(label == from, frame == release_frame) |> pull(object)
+  x = p |> filter(label == from, frame == release_frame) |> pull(x)
+  y = p |> filter(label == from, frame == release_frame) |> pull(y)
 
   ## Throw to a defined space
   if(to == "space"){
@@ -252,8 +257,8 @@ throw <- function(object_list,label,show=F,from,to,frame=1,throw_frame,alpha=1,a
     }
   }
   else{
-    xend = p |> filter(label == to, frame == throw_frame) |> pull(x)
-    yend = p |> filter(label == to, frame == throw_frame) |> pull(y)
+    xend = p |> filter(label == to, frame == catch_frame) |> pull(x)
+    yend = p |> filter(label == to, frame == catch_frame) |> pull(y)
   }
 
   data.frame(label = label, show = lshow, object = object, type = "Throw", x = x, y = y, xend = xend, yend = yend, frame = frame, alpha = alpha, arrow_shape = arrow_shape, label_pos = label_pos)

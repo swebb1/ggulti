@@ -37,7 +37,7 @@ library(ggulti)
 Use the `ggpitch()` function to create a pitch. The `type` argument specifies the type of pitch to create. The `endzone_fill` argument specifies the color of the endzone.
 
 ```{r, message=FALSE, warning=FALSE}
-pitch = ggpitch(type="half_attack",endzone_fill = "#AA4422")
+pitch = ggpitch(type="half_attack",endzone_fill = "#AA4422", ymin = 50)
 ```
 
 Pitch types
@@ -57,11 +57,11 @@ ggpitch()
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-ggpitch(type = "half_attack", fill = "lightgreen", alpha=1)
+ggpitch(type = "half_attack", fill = "lightgreen", alpha=1, ymin = 50)
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-ggpitch(type = "half_defend", endzone_fill = "black")
+ggpitch(type = "half_defend", endzone_fill = "black", ymax = 50)
 ```
 
 ```{r, message=FALSE, warning=FALSE}
