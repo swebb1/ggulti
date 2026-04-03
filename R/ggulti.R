@@ -354,15 +354,19 @@ ggulti_plot_values = list(
 #' @param default_obj_col Default colour for objects : default = #009E73
 #' @param obj_exclude Exclude objects from guide : default = c("Cone")
 #' @param pv Replace default plotting values for objects
+#' @param base List of geoms to add to a base layer : default = NULL
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
 
   p = pitch
+  if(!is.null(base)){
+    p = p + base
+  }
   if(nrow(arrows) > 0){
     if((animate==F & show_all==F) & keep_arrows==F){
       arrows = arrows |> filter(frame==static_frame)
@@ -374,7 +378,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     if(arrows |> filter(arrow_shape %in% c("fhrc","bhio")) |> nrow() > 0){
       p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
-                   colour=object, linetype=type, group = label),
+                   colour=object, linetype=type, group = label, alpha = alpha),
                curvature = 0.2,
                arrow = arrow(length = unit(0.25, "cm"),
                              type = "closed"))
@@ -382,7 +386,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     if(arrows |> filter(arrow_shape %in% c("bhrc","fhio")) |> nrow() > 0){
       p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
-                   colour=object, linetype=type, group = label),
+                   colour=object, linetype=type, group = label, alpha = alpha),
                curvature = -0.2,
                arrow = arrow(length = unit(0.25, "cm"),
                              type = "closed"))
@@ -390,7 +394,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
     if(arrows |> filter(arrow_shape == "straight") |> nrow() > 0){
       p = p + geom_segment(data=arrows |> filter(arrow_shape == "straight"),
                  aes(x = x, y = y, xend = xend, yend = yend,
-                     colour=object, linetype=type, group = label),
+                     colour=object, linetype=type, group = label, alpha = alpha),
                  arrow = arrow(length = unit(0.25, "cm"),
                                type = "closed"))
     }
