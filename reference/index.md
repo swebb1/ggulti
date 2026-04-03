@@ -1,0 +1,44 @@
+# Package index
+
+## All functions
+
+- [`all_frames()`](https://swebb1.github.io/ggulti/reference/all_frames.md)
+  : Helper function used by plot_play() function. Takes a dataframe of
+  objects/arrows and fills so that each object/arrow appears in all
+  frames
+- [`defender()`](https://swebb1.github.io/ggulti/reference/defender.md)
+  : Convenience function to create a Defense pitch_object dataframe
+  which tracks another objects movements.
+- [`disc()`](https://swebb1.github.io/ggulti/reference/disc.md) :
+  Convenience function to create a pitch_object which follows the path
+  of an arrow. E.g. a disc following a throw.
+- [`export_frames()`](https://swebb1.github.io/ggulti/reference/export_frames.md)
+  : Export an object or arrow list as a tsv file arranged by frames.
+  This is useful for making manual edits.
+- [`ggpitch()`](https://swebb1.github.io/ggulti/reference/ggpitch.md) :
+  Generate a pitch map as a ggplot object. The 'type' parameter controls
+  the section of pitch. Default size is set to 100 x 37, with endzones
+  18 deep.
+- [`hello()`](https://swebb1.github.io/ggulti/reference/hello.md) :
+  Hello, World!
+- [`hstack()`](https://swebb1.github.io/ggulti/reference/hstack.md) :
+  Helper function to print a list of 7 players in horizontal stack
+  formation
+- [`object_paths()`](https://swebb1.github.io/ggulti/reference/object_paths.md)
+  : Convenience function to create pitch_arrows which trace an objects
+  movement path on the pitch e.g. a players cut. You can choose to only
+  trace specific object types e.g offense players only.
+- [`pitch_arrow()`](https://swebb1.github.io/ggulti/reference/pitch_arrow.md)
+  : Create a pitch_arrow dataframe. Arrows are represented with
+  geom_segment or geom_curve in the plot_play() function. Arrows are
+  usually player movements (cuts) or throws on the field.
+- [`pitch_object()`](https://swebb1.github.io/ggulti/reference/pitch_object.md)
+  : Create a pitch_object dataframe. Objects are represented with
+  geom_point in the plot_play() function. Objects are usually players on
+  the field.
+- [`plot_play()`](https://swebb1.github.io/ggulti/reference/plot_play.md)
+  : Plotting function to create final graphic with a pitch, objects and
+  arrows.
+- [`throw()`](https://swebb1.github.io/ggulti/reference/throw.md) :
+  Convenience function to create a pitch_arrow dataframe representing a
+  throw between two players in an object list.
