@@ -406,10 +406,10 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
 
       if(arrows |> filter(!show == "" & label_pos==pos) |> nrow() > 0){
         if(pos %in% c("start_up","start_down")){
-          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE)
+          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE, fill="transparent")
         }
         else{
-          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=xend,y=yend,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE)
+          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=xend,y=yend,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE, fill="transparent")
         }
       }
     }
