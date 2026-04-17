@@ -3,6 +3,7 @@ library(dplyr)
 library(purrr)
 library(stringr)
 library(tidyr)
+library(ggarrow)
 library(gganimate)
 library(gifski)
 
@@ -355,10 +356,11 @@ ggulti_plot_values = list(
 #' @param obj_exclude Exclude objects from guide : default = c("Cone")
 #' @param pv Replace default plotting values for objects
 #' @param base List of geoms to add to a base layer : default = NULL
+#' @param resect Resects arrows so they don't overlap with objects : default = 4
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,resect=4){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
@@ -376,27 +378,22 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
       arrows = all_frames(arrows,frames)
     }
     if(arrows |> filter(arrow_shape %in% c("fhrc","bhio")) |> nrow() > 0){
-      p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
+      p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = 0.2,
-               arrow = arrow(length = unit(0.25, "cm"),
-                             type = "closed"))
+               curvature = 0.2, resect = resect, show.legend=T)
     }
     if(arrows |> filter(arrow_shape %in% c("bhrc","fhio")) |> nrow() > 0){
-      p = p + geom_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
+      p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = -0.2,
-               arrow = arrow(length = unit(0.25, "cm"),
-                             type = "closed"))
+               curvature = -0.2, resect = resect, show.legend=T)
     }
     if(arrows |> filter(arrow_shape == "straight") |> nrow() > 0){
-      p = p + geom_segment(data=arrows |> filter(arrow_shape == "straight"),
-                 aes(x = x, y = y, xend = xend, yend = yend,
-                     colour=object, linetype=type, group = label, alpha = alpha),
-                 arrow = arrow(length = unit(0.25, "cm"),
-                               type = "closed"))
+      p = p + geom_arrow_segment(data = arrows |> filter(arrow_shape == "straight"),
+               aes(x = x, y = y, xend = xend, yend = yend,
+                   colour = object, linetype = type, group = label, alpha = alpha),
+               resect = resect,show.legend=T)
     }
     p = p + scale_linetype_manual(values=pv$arrowtypes)
 
@@ -436,7 +433,10 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
   p = p +
     labs(x=NULL,y=NULL,colour="",linetype="")+
     scale_alpha_identity() +
-    guides(alpha="none",shape="none",size="none",colour = guide_legend(override.aes = list(size=8))) +
+    guides(alpha="none",shape="none",size="none",colour = guide_legend(override.aes = list(size=8)),
+      # 2. Make the linetype legend keys wider/thicker to see the dashes
+      linetype = guide_legend(override.aes = list(linewidth = 1), keywidth = 2)
+    ) +
     theme_minimal()
   if(animate == T){
     ga = p + transition_states(states = factor(frame,levels=1:max(frame)),
