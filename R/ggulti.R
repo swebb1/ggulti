@@ -212,7 +212,8 @@ object_paths <- function(object_list, objects = c("Offense")){
 #' @param from Label of the throwing object
 #' @param to Label of the receiving object or "space" if into empty space (provide space_x and space_y)
 #' @param frame Vector of frames to show the arrow in : default = 1
-#' @param throw_frame The frame representing the throw and receive positions of the to and from objects
+#' @param throw_frame The frame representing the throw position of the to object
+#' @param catch_frame The frame representing the receive positions of the from object
 #' @param alpha Colour opacity of the arrow : default = 1
 #' @param arrow_shape Shape of the arrow : "straight" (default), "bhrc", "fhrc", "bhio", "fhio" (give curved throwing shapes)
 #' @param space_x x-coord of a throw into space (must specify to = "space")
@@ -356,11 +357,12 @@ ggulti_plot_values = list(
 #' @param obj_exclude Exclude objects from guide : default = c("Cone")
 #' @param pv Replace default plotting values for objects
 #' @param base List of geoms to add to a base layer : default = NULL
+#' @param curvature Curve of arrows for curved throws : default = 0.2
 #' @param resect Resects arrows so they don't overlap with objects : default = 4
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,resect=4){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,curvature = 0.2,resect=4){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
@@ -381,21 +383,22 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
       p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = 0.2, resect = resect, show.legend=T)
+               curvature = curvature, resect = resect)
     }
     if(arrows |> filter(arrow_shape %in% c("bhrc","fhio")) |> nrow() > 0){
       p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = -0.2, resect = resect, show.legend=T)
+               curvature = -(curvature), resect = resect)
     }
     if(arrows |> filter(arrow_shape == "straight") |> nrow() > 0){
       p = p + geom_arrow_segment(data = arrows |> filter(arrow_shape == "straight"),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour = object, linetype = type, group = label, alpha = alpha),
-               resect = resect,show.legend=T)
+               resect = resect)
     }
     p = p + scale_linetype_manual(values=pv$arrowtypes)
+
 
     ## Add labels
     for(pos in c("start_up","start_down","end_up","end_down")){
@@ -433,11 +436,15 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
   p = p +
     labs(x=NULL,y=NULL,colour="",linetype="")+
     scale_alpha_identity() +
-    guides(alpha="none",shape="none",size="none",colour = guide_legend(override.aes = list(size=8)),
-      # 2. Make the linetype legend keys wider/thicker to see the dashes
-      linetype = guide_legend(override.aes = list(linewidth = 1), keywidth = 2)
+    guides(
+      alpha="none",
+      shape="none",
+      size="none",
+      colour = guide_legend(override.aes = list(size=8, linewidth=0)),
     ) +
-    theme_minimal()
+    theme_minimal() #+
+    #theme(legend.key.width = unit(1, "cm"))
+
   if(animate == T){
     ga = p + transition_states(states = factor(frame,levels=1:max(frame)),
                                transition_length = transition_length,
