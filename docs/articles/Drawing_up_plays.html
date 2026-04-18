@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Drawing up plays with ggulti • ggulti</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -88,7 +87,7 @@
 <code>endzone_fill</code> argument specifies the color of the
 endzone.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pitch</span> <span class="op">=</span> <span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"half_attack"</span>,endzone_fill <span class="op">=</span> <span class="st">"#AA4422"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pitch</span> <span class="op">=</span> <span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"half_attack"</span>,endzone_fill <span class="op">=</span> <span class="st">"#AA4422"</span>, ymin <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code></pre></div>
 <p>Pitch types</p>
 <ul>
 <li><p>“full” = Full pitch (default)</p></li>
@@ -101,19 +100,19 @@ endzone.</p>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-4-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-4-1.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"half_attack"</span>, fill <span class="op">=</span> <span class="st">"lightgreen"</span>, alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-5-1.png" width="576"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"half_attack"</span>, fill <span class="op">=</span> <span class="st">"lightgreen"</span>, alpha<span class="op">=</span><span class="fl">1</span>, ymin <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code></pre></div>
+<p><img src=".unnamed-chunk-5-1.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"half_defend"</span>, endzone_fill <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-6-1.png" width="576"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"half_defend"</span>, endzone_fill <span class="op">=</span> <span class="st">"black"</span>, ymax <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code></pre></div>
+<p><img src=".unnamed-chunk-6-1.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"blank"</span>, ymax <span class="op">=</span> <span class="fl">50</span>, xmax <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-7-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-7-1.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"void"</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-8-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-8-1.png" class="r-plt" alt="" width="576"></p>
 <p>The <code><a href="../reference/ggpitch.html">ggpitch()</a></code> function returns a <em>ggplot</em> object
 that can be customised further.</p>
 </div>
@@ -148,16 +147,16 @@ image).</p>
 <code><a href="../reference/plot_play.html">plot_play()</a></code> function. The default is to plot frame 1.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">players</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-10-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-10-1.png" class="r-plt" alt="" width="576"></p>
 <p>We can also choose which frame to plot:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">players</span>, static_frame <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-11-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-11-1.png" class="r-plt" alt="" width="576"></p>
 <p>Or we can plot all frames and objects which might be useful when
 creating our plots:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">players</span>,show_all <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-12-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-12-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="other-object-types">Other object types<a class="anchor" aria-label="anchor" href="#other-object-types"></a>
@@ -180,7 +179,7 @@ types are recognised</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">random</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-13-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-13-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="custom-objects">Custom objects<a class="anchor" aria-label="anchor" href="#custom-objects"></a>
@@ -193,13 +192,13 @@ types are recognised</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">custom</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-14-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-14-1.png" class="r-plt" alt="" width="576"></p>
 <p>By default the object will present as an offense object. You can
 change the default options (colour, size, shape) in the
 <code><a href="../reference/plot_play.html">plot_play()</a></code> function:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">custom</span>, default_obj_col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-15-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-15-1.png" class="r-plt" alt="" width="576"></p>
 <p>Alternatively, you can use the <code>pv</code> argument to add a new
 list of plotting values. The <code>ggulti_plot_values</code> object
 gives access to default values:</p>
@@ -210,7 +209,7 @@ gives access to default values:</p>
 <span><span class="va">pv</span><span class="op">$</span><span class="va">obj_sizes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">pv</span><span class="op">$</span><span class="va">obj_sizes</span>,<span class="st">"Referee"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>, object_list <span class="op">=</span> <span class="va">custom</span>, pv <span class="op">=</span> <span class="va">pv</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-16-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-16-1.png" class="r-plt" alt="" width="576"></p>
 <p>By customising objects, you can specifiy specific teams, genders or
 even psoitions e.g.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -229,7 +228,7 @@ even psoitions e.g.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="fu"><a href="../reference/ggpitch.html">ggpitch</a></span><span class="op">(</span>endzone_fill<span class="op">=</span><span class="st">"darkgrey"</span><span class="op">)</span>,object_list <span class="op">=</span> <span class="va">zone</span>,pv<span class="op">=</span><span class="va">pv</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-17-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-17-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 </div>
 <div class="section level2">
@@ -260,7 +259,7 @@ values for the offsets or a value for each frame.</p>
 <code class="sourceCode R"><span><span class="co">## Join players and defenders</span></span>
 <span><span class="va">player_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">players</span>,<span class="va">defenders</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>,object_list <span class="op">=</span> <span class="va">player_list</span>, keep_arrows <span class="op">=</span> <span class="cn">T</span>, static_frame <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-19-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-19-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="pitch-arrows">Pitch arrows<a class="anchor" aria-label="anchor" href="#pitch-arrows"></a>
@@ -339,13 +338,13 @@ throws and a disc. We can plot the play using the
 <code><a href="../reference/plot_play.html">plot_play()</a></code> function:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>,object_list <span class="op">=</span> <span class="va">object_list</span>,arrow_list <span class="op">=</span> <span class="va">arrow_list</span>,keep_arrows <span class="op">=</span> <span class="cn">T</span>,static_frame <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-25-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-25-1.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>,object_list <span class="op">=</span> <span class="va">object_list</span>,arrow_list <span class="op">=</span> <span class="va">arrow_list</span>,keep_arrows <span class="op">=</span> <span class="cn">T</span>,static_frame <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-26-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-26-1.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_play.html">plot_play</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="va">pitch</span>,object_list <span class="op">=</span> <span class="va">object_list</span>,arrow_list <span class="op">=</span> <span class="va">arrow_list</span>,keep_arrows <span class="op">=</span> <span class="cn">T</span>,static_frame <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-27-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-27-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="animating-the-play">Animating the play<a class="anchor" aria-label="anchor" href="#animating-the-play"></a>
@@ -373,7 +372,7 @@ we can add a title and change the theme:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Back of the zone!"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">18</span>, y <span class="op">=</span> <span class="fl">94</span>, label <span class="op">=</span> <span class="st">"Score!"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">7</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src=".unnamed-chunk-29-1.png" width="576"></p>
+<p><img src=".unnamed-chunk-29-1.png" class="r-plt" alt="" width="576"></p>
 <p>For more control over animations, you can save the
 <code><a href="../reference/plot_play.html">plot_play()</a></code> output and run <a href="https://gganimate.com/index.html" class="external-link"><code>gganimate</code></a>
 yourself.</p>
@@ -402,7 +401,7 @@ yourself.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

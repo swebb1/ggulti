@@ -11,8 +11,8 @@ plot_play(
   static_frame = 1,
   animate = F,
   animation_res = 150,
-  animation_width = 800,
-  animation_height = 800,
+  animation_width = 8,
+  animation_height = 8,
   shadow = F,
   transition_length = 1,
   state_length = 0.5,
@@ -21,7 +21,10 @@ plot_play(
   default_obj_size = 8,
   default_obj_shape = 19,
   default_obj_col = "#009E73",
-  pv = ggulti_plot_values
+  obj_exclude = c("Cone"),
+  pv = ggulti_plot_values,
+  base = NULL,
+  resect = 4
 )
 }
 \arguments{
@@ -50,6 +53,14 @@ plot_play(
 \item{default_obj_shape}{Default shape for objects : default = 19}
 
 \item{default_obj_col}{Default colour for objects : default = #009E73}
+
+\item{obj_exclude}{Exclude objects from guide : default = c("Cone")}
+
+\item{pv}{Replace default plotting values for objects}
+
+\item{base}{List of geoms to add to a base layer : default = NULL}
+
+\item{resect}{Resects arrows so they don't overlap with objects : default = 4}
 
 \item{animate_res}{Manually set animation resolution : default = 80}
 }
