@@ -24,6 +24,7 @@ plot_play(
   obj_exclude = c("Cone"),
   pv = ggulti_plot_values,
   base = NULL,
+  curvature = 0.2,
   resect = 4
 )
 }
@@ -59,6 +60,8 @@ plot_play(
 \item{pv}{Replace default plotting values for objects}
 
 \item{base}{List of geoms to add to a base layer : default = NULL}
+
+\item{curvature}{Curve of arrows for curved throws : default = 0.2}
 
 \item{resect}{Resects arrows so they don't overlap with objects : default = 4}
 

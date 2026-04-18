@@ -34,7 +34,9 @@ throw(
 
 \item{frame}{Vector of frames to show the arrow in : default = 1}
 
-\item{throw_frame}{The frame representing the throw and receive positions of the to and from objects}
+\item{throw_frame}{The frame representing the throw position of the to object}
+
+\item{catch_frame}{The frame representing the receive positions of the from object}
 
 \item{alpha}{Colour opacity of the arrow : default = 1}
 

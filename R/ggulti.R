@@ -1,3 +1,4 @@
+#' @importFrom ggarrow geom_arrow_segment geom_arrow_curve
 library(ggplot2)
 library(dplyr)
 library(purrr)
