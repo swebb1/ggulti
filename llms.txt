@@ -59,6 +59,10 @@ library(ggulti)
 - [`plot_play()`](https://swebb1.github.io/ggulti/reference/plot_play.md)
   : Plotting function to create final graphic with a pitch, objects and
   arrows.
+- [`static_objects()`](https://swebb1.github.io/ggulti/reference/static_objects.md)
+  : Create multiple a list of pitch_objects which do not move throughout
+  all frames. Objects are represented with geom_point in the plot_play()
+  function. Static objects could be cones or players in a queue.
 - [`throw()`](https://swebb1.github.io/ggulti/reference/throw.md) :
   Convenience function to create a pitch_arrow dataframe representing a
   throw between two players in an object list.

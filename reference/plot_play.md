@@ -13,8 +13,8 @@ plot_play(
   static_frame = 1,
   animate = F,
   animation_res = 150,
-  animation_width = 800,
-  animation_height = 800,
+  animation_width = 8,
+  animation_height = 8,
   shadow = F,
   transition_length = 1,
   state_length = 0.5,
@@ -23,7 +23,11 @@ plot_play(
   default_obj_size = 8,
   default_obj_shape = 19,
   default_obj_col = "#009E73",
-  pv = ggulti_plot_values
+  obj_exclude = c("Cone"),
+  pv = ggulti_plot_values,
+  base = NULL,
+  curvature = 0.2,
+  resect = 4
 )
 ```
 
@@ -81,6 +85,26 @@ plot_play(
 - default_obj_col:
 
   Default colour for objects : default = \#009E73
+
+- obj_exclude:
+
+  Exclude objects from guide : default = c("Cone")
+
+- pv:
+
+  Replace default plotting values for objects
+
+- base:
+
+  List of geoms to add to a base layer : default = NULL
+
+- curvature:
+
+  Curve of arrows for curved throws : default = 0.2
+
+- resect:
+
+  Resects arrows so they don't overlap with objects : default = 4
 
 - animate_res:
 

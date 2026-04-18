@@ -9,7 +9,7 @@ tracks another objects movements.
 defender(
   player,
   label = "",
-  show = NA,
+  show = F,
   object = "Defense",
   xjust = -1,
   yjust = -1,

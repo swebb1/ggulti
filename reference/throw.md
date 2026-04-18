@@ -13,7 +13,9 @@ throw(
   from,
   to,
   frame = 1,
-  throw_frame,
+  throw_frame = NA,
+  catch_frame = NA,
+  release_frame = NA,
   alpha = 1,
   arrow_shape = "straight",
   space_x = NA,
@@ -51,8 +53,11 @@ throw(
 
 - throw_frame:
 
-  The frame representing the throw and receive positions of the to and
-  from objects
+  The frame representing the throw position of the to object
+
+- catch_frame:
+
+  The frame representing the receive positions of the from object
 
 - alpha:
 
