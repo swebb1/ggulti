@@ -365,7 +365,7 @@ ggulti_plot_values = list(
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=4,default_obj_shape=19,default_obj_col="#009E73",default_label_size=3,obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,curvature = 0.2,arrow_width = 2, resect=0){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=4,default_obj_shape=19,default_obj_col="#009E73",default_label_size=3,obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,curvature = 0.2,arrow_width = 1.2, resect=0){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
