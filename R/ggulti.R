@@ -331,7 +331,7 @@ export_frames <- function(list,filename="frames.tsv"){
 arrowtypes = c("Cut" = "solid", "Throw" = "dashed", "Label" = "dotted")
 obj_cols =c("Disc" = "grey","Offense" = "#009E73","Defense" = "#0072B2", "Coach" = "#f8766d", "Cone" = "darkorange")
 obj_shapes = c("Disc"=19,"Cone"=17)
-obj_sizes = c("Disc"=7,"Cone"=4)
+obj_sizes = c("Disc"=3,"Cone"=3)
 ggulti_plot_values = list(
   arrowtypes = arrowtypes,
   obj_cols = obj_cols,
@@ -355,6 +355,7 @@ ggulti_plot_values = list(
 #' @param default_obj_size Default point size for objects : default = 8
 #' @param default_obj_shape Default shape for objects : default = 19
 #' @param default_obj_col Default colour for objects : default = #009E73
+#' @param default_label_size Size of labels : default = 3
 #' @param obj_exclude Exclude objects from guide : default = c("Cone")
 #' @param pv Replace default plotting values for objects
 #' @param base List of geoms to add to a base layer : default = NULL
@@ -363,7 +364,7 @@ ggulti_plot_values = list(
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=8,default_obj_shape=19,default_obj_col="#009E73",obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,curvature = 0.2,resect=0){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=4,default_obj_shape=19,default_obj_col="#009E73",default_label_size=3,obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,curvature = 0.2,resect=0){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
@@ -407,10 +408,10 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
 
       if(arrows |> filter(!show == "" & label_pos==pos) |> nrow() > 0){
         if(pos %in% c("start_up","start_down")){
-          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE, fill="transparent")
+          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE, fill="transparent",size=default_label_size)
         }
         else{
-          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=xend,y=yend,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE, fill="transparent")
+          p = p + geom_label(data=arrows |> filter(!show == "" & label_pos==pos), aes(x=xend,y=yend,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,show.legend = FALSE, fill="transparent",size=default_label_size)
         }
       }
     }
@@ -430,7 +431,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
         vjust = case_when(pos == "up" ~ -2, pos == "down" ~ 3, .default = NA)
         hjust = case_when(pos == "right" ~ -1, pos == "left" ~ 2, .default = NA)
         if(objects |> filter(!show == "" & label_pos==pos) |> nrow() > 0){
-          p = p + geom_text(data=objects |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,hjust=hjust,show.legend = FALSE)
+          p = p + geom_text(data=objects |> filter(!show == "" & label_pos==pos), aes(x=x,y=y,colour=object,alpha=alpha,label=show,group=label),vjust=vjust,hjust=hjust,size=default_label_size,show.legend = FALSE)
         }
     }
   }
@@ -441,7 +442,7 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
       alpha="none",
       shape="none",
       size="none",
-      colour = guide_legend(override.aes = list(size=8, linewidth=0)),
+      colour = guide_legend(override.aes = list(size=pv$obj_sizes["Disc"], linewidth=0)),
     ) +
     theme_minimal() #+
     #theme(legend.key.width = unit(1, "cm"))
