@@ -31,6 +31,6 @@ hstack
 #>             x = c(34), y = c(40), alpha = 0.8, frame = 1))
 #>     bind_rows(players)
 #> }
-#> <bytecode: 0x5627fef807a0>
+#> <bytecode: 0x560c28645878>
 #> <environment: namespace:ggulti>
 ```
