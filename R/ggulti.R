@@ -385,19 +385,19 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
       p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = curvature, resect = resect)
+               curvature = curvature, resect = resect, arrow_head = arrow_head_wings(offset = 20, inset = 60))
     }
     if(arrows |> filter(arrow_shape %in% c("bhrc","fhio")) |> nrow() > 0){
       p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = -(curvature), resect = resect)
+               curvature = -(curvature), resect = resect, arrow_head = arrow_head_wings(offset = 20, inset = 60))
     }
     if(arrows |> filter(arrow_shape == "straight") |> nrow() > 0){
       p = p + geom_arrow_segment(data = arrows |> filter(arrow_shape == "straight"),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour = object, linetype = type, group = label, alpha = alpha),
-               resect = resect)
+               resect = resect, arrow_head = arrow_head_wings(offset = 20, inset = 60))
     }
     p = p + scale_linetype_manual(values=pv$arrowtypes)
 
