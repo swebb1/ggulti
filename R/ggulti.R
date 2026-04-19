@@ -334,6 +334,7 @@ obj_shapes = c("Disc"=19,"Cone"=17)
 obj_sizes = c("Disc"=3,"Cone"=3)
 ggulti_plot_values = list(
   arrowtypes = arrowtypes,
+  arrow_params = list(arrow_width = 0.5, curvature = 0.2, resect = 0.1, offset = 20, inset = 60),
   obj_cols = obj_cols,
   obj_shapes = obj_shapes,
   obj_sizes = obj_sizes
@@ -360,12 +361,11 @@ ggulti_plot_values = list(
 #' @param pv Replace default plotting values for objects
 #' @param base List of geoms to add to a base layer : default = NULL
 #' @param curvature Curve of arrows for curved throws : default = 0.2
-#' @param arrow_width Width of arrows : default = 1
 #' @param resect Resects arrows so they don't overlap with objects : default = 0
 #' @return A ggplot object
 #' @examples
 #' plot_play(pitch,arrow_list,object_list,static_frame=2)
-plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=4,default_obj_shape=19,default_obj_col="#009E73",default_label_size=3,obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL,curvature = 0.2,arrow_width = 1, resect=0){
+plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_frame=1,animate=F,animation_res=150,animation_width=8,animation_height=8,shadow=F,transition_length=1,state_length=0.5,keep_arrows=F,show_all=F,default_obj_size=4,default_obj_shape=19,default_obj_col="#009E73",default_label_size=3,obj_exclude=c("Cone"),pv=ggulti_plot_values,base=NULL){
 
   arrows = bind_rows(arrow_list)
   objects = bind_rows(object_list)
@@ -386,19 +386,19 @@ plot_play <- function(pitch=ggpitch(),arrow_list=NULL,object_list=NULL,static_fr
       p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("fhrc","bhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = curvature, linewidth = arrow_width, resect = resect, arrow_head = arrow_head_wings(offset = 20, inset = 60))
+               curvature = pv$arrow_params$curvature, linewidth = pv$arrow_params$arrow_width, resect = pv$arrow_params$resect, arrow_head = arrow_head_wings(offset = pv$arrow_params$offset, inset = pv$arrow_params$inset))
     }
     if(arrows |> filter(arrow_shape %in% c("bhrc","fhio")) |> nrow() > 0){
       p = p + geom_arrow_curve(data=arrows |> filter(arrow_shape %in% c("bhrc","fhio")),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour=object, linetype=type, group = label, alpha = alpha),
-               curvature = -(curvature), linewidth = arrow_width, resect = resect, arrow_head = arrow_head_wings(offset = 20, inset = 60))
+               curvature = -(pv$arrow_params$curvature), linewidth = pv$arrow_params$arrow_width, resect = pv$arrow_params$resect, arrow_head = arrow_head_wings(offset = pv$arrow_params$offset, inset = pv$arrow_params$inset))
     }
     if(arrows |> filter(arrow_shape == "straight") |> nrow() > 0){
       p = p + geom_arrow_segment(data = arrows |> filter(arrow_shape == "straight"),
                aes(x = x, y = y, xend = xend, yend = yend,
                    colour = object, linetype = type, group = label, alpha = alpha),
-               linewidth = arrow_width, resect = resect, arrow_head = arrow_head_wings(offset = 20, inset = 60))
+               linewidth = pv$arrow_params$arrow_width, resect = pv$arrow_params$resect, arrow_head = arrow_head_wings(offset = pv$arrow_params$offset, pv$arrow_params$inset))
     }
     p = p + scale_linetype_manual(values=pv$arrowtypes)
 
